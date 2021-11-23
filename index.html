@@ -2,152 +2,272 @@
 <html lang="en">
 
 <head>
-<title>Quiz about myself</title>
-<meta name="Robots" content="index, follow" />
+<title>Time-Sensitive Networking – Deterministic Network</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<meta name="Keywords" content="Web, html, 웹 표준" />
-<meta name="Description" content="Web, html, 웹 표준" />
+<meta name="Robots" content="index, follow" />
+<meta name="AUTHOR" content="Byeongchan Gwak">
+<meta name="Keywords" content="Time-Sensitive Networking, TSN, IEEE 802.1, Deterministic Networking, Audio Video Bridging, AVB, Time Synchronization, Scheduled Traffic, Per stream filtering and policing, Cyclic Queuing and Forwarding, Frame Replication, Media Networking, Machine Control, Automotive Networks, TSN applications, TSN challenges">
+<meta name="Description" content="Traditional networks have developed in the direction of providing connected services to users, expanding service bandwidth, and guaranteeing service quality. Until now, network-based services have focused on people, and delays of tens of milliseconds have not been a big problem. However, with the advent of services that target things such as Machine-to-Machine(M2M) and the Internet of Things (IoT), we are facing a situation where our service is disrupted even if it is the slightest delay. The time-sensitive networking (TSN) technology standardized by IEEE 802.1 is an Ethernet-based networking technology to provide services for applications requiring ultra-low latency and high-precision characteristics. This paper explains what TSN is and how to implement deterministic communication and its core technology. Then, this paper shows the applications of TSN and the challenges it faces today." />
 
 <style>
 table, th, td {
   border:1px solid black;
 }
 </style>
-
 </head>
 
 <body>
-<a id="top"></a>
-<h1>Time-Sensitive Networking</h1>
-<img src="bcgwak.jpg" alt="Byeongchan infront of the WashU" width="400">
-<div><B>Byeongchan Gwak</B>, kbckbc@gmail.com
-</div>
-<hr>
+
+<h1>Time-Sensitive Networking – Deterministic Network</h1>
+
 
 <table style="border:0px">
     <tr style="vertical-align:bottom">
         <td style="border:0px; width:70%; text-align:left"> 
             <b>Byeongchan Gwak</b>, b.gwak@wustl.edu 
-            (A paper written under the guidance of <a href="../../../index.html">Prof. Raj Jain</a>)
+            (A paper written under the guidance of <a href="https://www.cse.wustl.edu/~jain/index.html">Prof. Raj Jain</a>)
         </td>
         <td style="border:0px; width:30%; text-align:right">
-            <a href="../.pdf">Download<img style="border:0px" src="../../../ftp/pdf.jpg" alt="PDF" height="48" width="48"></a>
+            <!-- PDF link-->
         </td>
     </tr>
 </table>
 
 <h2 id="abstract">Abstract</h2>
-<p>aaa</p>
+<p>
+    Traditional networks have developed in the direction of providing connected services to users, expanding service bandwidth, and guaranteeing service quality. Until now, network-based services have focused on people, and delays of tens of milliseconds have not been a big problem. However, with the advent of services that target things such as Machine-to-Machine(M2M) and the Internet of Things (IoT), we are facing a situation where our service is disrupted even if it is the slightest delay. The time-sensitive networking (TSN) technology standardized by IEEE 802.1 is an Ethernet-based networking technology to provide services for applications requiring ultra-low latency and high-precision characteristics. This paper explains what TSN is and how to implement deterministic communication and its core technology. Then, this paper shows the applications of TSN and the challenges it faces today.
+</p>
 
 
 <h2 id="keywords">Keywords</h2>
 <p>
-    Time-Sensitive Networking, TSN, Audio Video Bridging, 
-    AVB, deterministic networking, TSN applications, TSN challenges, 
-    TSN Components, Industrial Automation, Frame Preemption, Frame Replication, TSN Configuration
-
+    Time-Sensitive Networking, TSN, IEEE 802.1, Deterministic Networking, Audio Video Bridging, AVB, Time Synchronization, Scheduled Traffic, Per stream filtering and policing, Cyclic Queuing and Forwarding, Frame Replication, Media Networking, Machine Control, Automotive Networks, TSN applications, TSN challenges
 </p>
 	
 <hr>
 
 	<!-- 5. Table of Contents -->
 	<h2><a id="toc">Table of Contents</a></h2>
-		<a href="index.html#con1">1. Introduction</a>
+		<a href="index.html#toc1">1. Introduction</a>
 		<ul>
-			<li><a href="index.html#con11">1.1 What is TSN?</a></li>
-			<li><a href="index.html#con12">1.2 Background of TSN</a></li>
-			<li><a href="index.html#con13">1.3 Why is TSN needed?</a></li>
+			<li><a href="index.html#toc11">1.1 Why is TSN needed?</a></li>
+			<li><a href="index.html#toc12">1.2 What is TSN?</a></li>
+			<li><a href="index.html#toc13">1.3 History of TSN</a></li>
+            <li><a href="index.html#toc14">1.4 Advantages of TSN</a></li>
+			<li><a href="index.html#toc15">1.5 Summary</a></li>
+
 		</ul>
 		
-		<a href="index.html#con2">2. TSN set of standards</a>
+		<a href="index.html#toc2">2. TSN: Set of standards</a>
 		<ul>
-			<li><a href="index.html#con21">2.1 Time Synchronization</a></li> 
-			<li><a href="index.html#con22">2.2 Scheduled Traffic</a></li>
-			<li><a href="index.html#con23">2.3 Frame Preemption</a></li>
-			<li><a href="index.html#con24">2.4 Per-Stream Filtering and Policing (PSFP)</a></li>
-            <li><a href="index.html#con24">2.5 Cyclic Queuing and Forwarding</a></li>
-            <li><a href="index.html#con24">2.6 Frame Replication</a></li>
-			<li><a href="index.html#con25">2.7 Summary</a></li>
+			<li><a href="index.html#toc21">2.1 What does 'deterministic' mean?</a></li> 
+			<li><a href="index.html#toc22">2.2 Time Synchronization (IEEE 802.1AS-REV)</a></li>
+			<li><a href="index.html#toc23">2.3 Scheduled Traffic (IEEE 802.1Qbv)n</a></li>
+			<li><a href="index.html#toc24">2.4 Per stream filtering and policing (IEEE 802.1Qci) & Cyclic Queuing and Forwarding (IEEE 802.1Qch)</a></li>
+            <li><a href="index.html#toc25">2.5 Frame Preemption (IEEE 802.3br, IEEE 802.1Qbu)</a></li>
+            <li><a href="index.html#toc26">2.6 Frame Replication and Elimination for Reliability (IEEE 802.1CB)</a></li>
+			<li><a href="index.html#toc27">2.7 Summary</a></li>
 		</ul>
 		
-		<a href="index.html#con3">3. Application Domains and Challenges</a>
+		<a href="index.html#toc3">3. Application Domains and Challenges</a>
 		<ul>
-			<li><a href="index.html#con31">3.1 Detnet</a></li>
-			<li><a href="index.html#con32">3.2 Industrial Automation</a></li>
-            <li><a href="index.html#con32">3.3 Challenges</a></li>
-			<li><a href="index.html#con33">3.4 Summary</a></li>
+			<li><a href="index.html#toc31">3.1 Application Domains</a></li>
+			<li><a href="index.html#toc32">3.2 Challenges</a></li>
+            <li><a href="index.html#toc32">3.3 Summary</a></li>
 		</ul>	
 
-		<a href="index.html#con4">4. Summary</a> <br><br>
-		<a href="index.html#con5">References</a> <br><br>
-		<a href="index.html#con6">List of Acronyms</a> <br>
+		<a href="index.html#toc4">4. Summary</a> <br><br>
+		<a href="index.html#toc5">References</a> <br><br>
+		<a href="index.html#toc6">List of Acronyms</a> <br>
 	<br>
 
 	<hr>
 
 
 
+	<!-- 1. Introduction -->
+	<h2 id="toc1">1. Introduction</h2>
+		<p>This chapter covers why TSN emerged and what it is. Then, learn about the history of TSN and summarize its strengths.</p>	
+
+		<h3 id="toc11">1.1 Why is TSN needed?</h3>
+        <p>
+            Ethernet technology has not only proven very successful, but it is also a communication method that exists throughout the IT world. However, to date, there has been no real-time support for IEEE standard Ethernet. Existing Ethernet networks may experience traffic delays of tens of milliseconds or more when traffic is concentrated on a specific node. Ethernet, which has become the worldwide standard for enterprise networking, has not met these deterministic requirements. 
+        </p>
+        <p>
+            Industrial automation triggered by the 4th Industrial Revolution requires high availability and very low latency (less than 1ms) of communication services such as real-time monitoring and high-precision remote control. IEEE 802.3 Ethernet, although a widely deployed low-cost layer-2 technology, fails to match the deterministic performance requirements of industrial automation and control applications. To achieve deterministic performance, most industrial enterprises continue to use Fieldbus technologies and their proprietary enhancements to Ethernet (such as EtherCat, PROFINET, or SERCOS III) [Bhattacharjee18].        </p>
+        </p>
+        <p>
+            As a result, the current industrial networks are not uniform and have different appearances. The use of these individual products faced the limitations of low security and interoperability, which is currently an obstacle in industrial IoT network integration and transition to the 4th Industrial Revolution.        </p>
+        </p>
+        <p>
+            However, things are a little different now. This is because Time-Sensitive Networking (TSN), which evolved into the IEEE 802.1 standard, has emerged. TSN is emerging as a network infrastructure-based technology that requires ultra-low latency networking technology as a standard to support time-sensitive networks.        </p>
+        </p>
+
+        <h3 id="toc12">1.2 What is TSN?</h3>
+        <p>
+            Time-Sensitive Networking (TSN), as inferred from the title, is a set of technologies to support time-sensitive networks. It is a technology that can handle time-sensitive traffic by using the IEEE standard Ethernet that we are currently using [Messenger18]. In other words, TSN is to provide zero loss from congestion and bounded latency for a variety of time-sensitive data streams coexisting on a network that also supports best-effort traffic. TSN provides ultra-low latency networking for a local area network that is built with a small number of devices located at a relatively close distance, and it can be applied to any place such as industrial automation where the delay deviation of a traffic flow must not exceed a specified range.
+        </p>
+        <p>
+            Early TSN designs were intended for use with streaming audio/video (A/V) containing large amounts of data in systems with numerous end stations. TSN extends the IEEE 802 optimal networking model by introducing a new streaming concept. This concept supports a set of features that enhance the real-time capabilities of streams.
+        </p>
+        <p>
+            In short, it can be seen as a technology set that guarantees the arrival time of data between nodes in an IEEE 802.3 network where the data arrival time is not guaranteed.
+        </p>
+
+		<h3 id="toc13">1.3 History of TSN</h3>
+        <p>
+            TSN is a set of standards developed based on Audio Video Bridging (AVB). Traditionally, analog audio-video (AV) equipment has historically used a one-way, single-purpose, point-to-point connection. This approach results in a lot of confusing cable clumps in professional applications and high-end audio. Many attempts have been made to solve this problem, and the result is AVB. AVB has been studied with two goals in mind to deliver time-sensitive audio/video files with lossless and low latency. In addition, AVB has a great advantage in that it does not require additional equipment costs because it was developed based on Ethernet, which is already widely used. In other words, AVB is the result of unifying the confusing existing interfaces and overcoming the limitations of quality assurance with the traditional Ethernet communication method.
+        </p>
 
 
+        <h3 id="toc14">1.4 Advantages of TSN</h3>
+        <p>
+            1. Bounded latency and zero congestion loss
+        </p>
+        <p>
+            Congestion loss, the statistical overflowing of an output buffer in a network node, is the main cause of packet loss in a best-effort network [Finn18]. To deal with this problem, TSN transmits by grafting the concept of priority to a method similar to the traditional time-division multiplexing (TDM). Since packets are allocated available time for transmission according to priority, arrival time is guaranteed, and even if a bottleneck occurs, transmission can be performed without affecting the predetermined priority. Therefore, TSN can guarantee worst-case arrival times in any case, which is a clear advantage that traditional Ethernet cannot have.
+        </p>
 
+        <p>
+            2. Reliable packet delivery
+        </p>
 
+        <p>
+            Very reliable packet forwarding is possible. Besides congestion loss, one of the most important causes of packet loss is equipment failure [Finn18]. A TSN network can send a copy of data in transmission and deduplicate it at the destination. Because all packets are duplicated and delivered to their destination, no single packet is lost due to a single equipment failure. This, combined with the advantage of being reached on time, makes the TSN more complete.
+        </p>
+        <p>
+            3. Reduce network cost and complexity by coexistence with Ethernet
+        </p>
+        <p>
+            TSN coexists with the traditional Ethernet method. Additionally, non-TSN traffic can use any contracted bandwidth not used by TSN flows. And since it is implemented on top of the traditional Ethernet method, there is no need to replace the equipment, and it can be integrated and managed. This is a huge advantage for the application of TSN.
+        </p>
 
+        <h3 id="toc15">1.5 Summary</h3>
+        <p>
+            This chapter shows that why TSN has emerged, what it is, and what its advantages are. TSN guarantees deterministic communication by using existing Ethernet technology. In addition, TSN is a set of standards developed based on AVB [Shousai18]. TSN has the advantages of bounded latency, reliable packet delivery, and coexistence with Ethernet. In the next chapter, we will take a closer look at the technology and how TSN can have these benefits.
+        </p>
+        
+	<hr>
 
-    
+	<!-- 2. TSN: Set of standards -->
+	<h2 id="toc2">2. TSN: Set of standards</h2>
+		<p>This chapter covers why TSN emerged and what it is. Then, learn about the history of TSN and summarize its strengths.</p>	
 
-<h2><a id="toc"></a>Quiz list</h2>
-<table>
-    <thead>
-        <tr>
-            <th colspan="2">Questions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>#1</td>
-            <td>Where are you from?</td>
-        </tr>
-        <tr>
-            <td>#2</td>
-            <td>What city are you from?</td>
-        </tr>
-        <tr>
-            <td>#3</td>
-            <td>What food do you like?</td>
-        </tr>
-        <tr>
-            <td>#4</td>
-            <td>Since when did you live in the US?</td>
-        </tr>
-        <tr>
-            <td>#5</td>
-            <td>How old are you?</td>
-        </tr>
-        <tr>
-            <td>#6</td>
-            <td>Why are you studying again??</td>
-        </tr>
-    </tbody>
-</table>
+		<h3 id="toc21">2.1 What does 'deterministic' mean?</h3>
+		<h3 id="toc22">2.2 Time Synchronization (IEEE 802.1AS-REV)</h3>
+		<h3 id="toc23">2.3 Scheduled Traffic (IEEE 802.1Qbv)</h3>
+		<h3 id="toc24">2.4 Per stream filtering and policing (IEEE 802.1Qci) & Cyclic Queuing and Forwarding (IEEE 802.1Qch)</h3>
+        <h3 id="toc25">2.5 Frame Preemption (IEEE 802.3br, IEEE 802.1Qbu)</h3>
+        <h3 id="toc26">2.6 Frame Replication and Elimination for Reliability (IEEE 802.1CB)</h3>
+        <h3 id="toc27">2.7 Summary</h3>
+	<hr>		
 
+        
+	<!-- 3. Application Domains and Challenges -->
+	<h2 id="toc3">3. Application Domains and Challenges</h2>
+		<p>
+            TSN provides time synchronization and deterministic communication using standard Ethernet networks. Therefore, any application that requires time-sensitive control can benefit from TSN. Let's take a look at what fields TSN applies to, and the limitations it has.
+        </p>	
 
-<h2><a id="intro"></a>Answers</h2>
+		<h3 id="toc31">3.1 Application Domains</h3>
+        <p>
+            1. Media Networking
+        </p>
+        <p>
+            It was also covered in the history of TSN, it started with the technology to support the media in the first place. Networks carrying audio and video information must adhere to strict timing rules. If the audio or video packet arrives late at the destination, the sound source and video cannot be output. Therefore, mainly used one-way, single-purpose, point-to-point connections have been used. This connection method results in different interfaces and complex cabling, which is easily understood by looking at Figure 7. You can see why the media market needed AVB. The cabling complexity can be dramatically reduced compared to the conventional method in which all lines are concentrated and connected in one place.
+        </p>
+        <p>
+            2. Automotive Networks
+        </p>
+        <p>
+            Vehicles are machines that are directly related to human safety. Therefore, the real-time capability is essential to connect the vehicle's Advanced Driver Assistance Systems (ADAS). TSN's ultra-low latency and ultra-low loss are emerging as an alternative to connecting all electronic devices in the vehicle. And in addition to the benefits offered by deterministic transport, compatibility with legacy Ethernet offers significant benefits for automotive applications. There is no need to rely on cumbersome legacy networking protocols such as FlexRay, LIN, and MOST used to interconnect various systems inside the car. Processing multiple types of data (control, air conditioning, electronics, infotainment, etc.) on one unified platform is important in an environment such as automobiles. Moreover, now automakers are moving to use Ethernet (with TSN) for connection of the vehicle ECUs [wiki5]. In the future, more ADAS will be connected and TSN will provide the core network in an automobile.        </p>
+        <p>
+            3. Machine Control
+        </p>
+        <p>
+            As the main users of the network move from people to M2M, TSN technology has potential markets in a variety of fields. TNS is attracting attention from many markets in line with changes in industrial networks such as industry 4.0. It can be applied to any field requiring time-sensitive control. It can be used, for example, in a machine control system between equipment in a factory. The machine control network accepts input from sensors, performs control processes, and initiates actions in response. Creating a predictable machine control system requires the implementation of a deterministic network. Historically many companies have used proprietary Fieldbuses, but this had technical and business limitations, especially related to scalability, bandwidth, vendor neutrality, and flexibility [wiki5]. Now, NI and Hilscher are starting to add commercial products that support TSN to their products. And these products will increase even more in the future.        </p>
+		<h3 id="toc32">3.2 Challenges</h3>
+        <p>
+            Time synchronization is essential to implement deterministic transmission of TSN. The IEEE 1588-2008 standard is used for time synchronization, and the standard is known to have vulnerabilities. Because time information is transmitted over Ethernet, it is vulnerable to insider threats such as packet tampering, Denial of Service (DoS), and delay attacks. Time Synchronization Attacks (TSA) targeting on IEEE 1588 may result in timing errors or cause the loss of synchronization, which may potentially lead to catastrophic failures of monitoring, protection, and control applications. The results of DoS attacks, delay attacks, modification attacks, and spoofing attacks can force a slave clock to align to a false time or lose synchronization. [Han19] And for high-priority reserved traffic, providing cryptographic protection, authentication, and the integrity of all messages at wire speed is a challenge. Finally, the standard for how a TSN should be structured is not yet finalized. The absence of a TSN configuration standard will be the single biggest constraint on future TSN adoption. Fortunately, IEEE 802.1Qcc to support centralized configuration for TSN is currently being drafted.\
+        </p>
+		<h3 id="toc33">3.3 Summary</h3>
+        <p>
+            By supporting deterministic real-time communication on top of Ethernet, TSN is expanding its reach to many industries. Any application that requires time-sensitive control can be considered for the application of TSN. In addition to the media network in which it was born, TSN is expanding its reach to automotive automation and industrial machine control. However, it inherits the vulnerability of IEEE 1588 adopted for time synchronization, and the standard for configuring TSN has not yet been extended. It is expected that these obstacles will be resolved over time, and the future of TSN is bright as the advantages it can obtain outweigh the disadvantages it has.
+        </p>
+       
+	<hr>
 
-<ol>
-<li><a href="https://en.wikipedia.org/wiki/South_Korea">South Korea</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Seoul">Seoul</a></li>
-<li> Top 3 food
-<ul>
-<li><a href="https://en.wikipedia.org/wiki/Samgyeopsal">Samgyeopsal</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Gamja-tang">Gamja-tang</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Tteokbokki">Tteokbokki</a></li>
-</ul>
+	<!-- Summary -->
+	<h2 id="toc4">4. Summary</h2>
+		<p>
+            This paper covers the emergence of TSN, its background, advantages, underlying technology, applicable fields, and limitations. TSN is a set of standards developed based on AVB and has the advantages of limited latency, reliable packet forwarding, and coexistence with Ethernet.
+        </p>	
+        <p>
+            TSN is gradually expanding the field of application with deterministic communication as a weapon. Deterministic communication means that we can guarantee the lowest possible time for data transmission.        </p>
+        </p>	
+        <p>
+            We also looked at various techniques for implementing deterministic communication. At the heart of implementing that technology is a standard called time synchronization. TSN uses a grandmaster clock to unify the time of all nodes (IEEE 802.1AS-REV). And to implement 'deterministic' communication, TSN divides time into slots and then transmits with priority (IEEE 802.1Qbv), and follows the PSPF standard for classifying priorities (IEEE 802.1Qci). In addition, the timely arrival of data is guaranteed through the preemption of 'Express', the most urgent data (IEEE 802.3br, IEEE 802.1Qbu). In addition, data transmission is guaranteed even in the event of a malfunction of one switch through redundant transmission and removal of data (IEEE 802.1CB). TSN achieves deterministic data transmission through a set of technologies we have seen so far.        </p>
+        </p>	
+        <p>
+            TSN is expanding beyond media networks to automotive automation and industrial machine control as the primary users of the network move from people to M2M. There are limitations such as an attack vulnerability for time synchronization and an unconfirmed standard for the TSN setting, but it is expected to be resolved soon.        </p>
+        </p>	
+        <p>
+            Standard Ethernet faithfully performs the role of data transmission but has a weakness in that it does not guarantee real-time and scalability. TSN, which emerged to solve this problem, shows that it is leading innovation in layer-2 networking by combining several existing standards into one 'package'. Although there are some challenges to be solved, the future of TSN is bright due to the emergence of services that target things such as M2M and IoT, which started with the 4th industrial revolution.        </p>
+        </p>	
 
-<li>Just two months ago</li>
-<li><a href="https://allfamous.org/age/39">39</a></li>
-<li>I never imagine I started stuyding again :)</li>
-</ol>
+	<hr>	
+
+	<!-- References -->
+	<h2 id="toc5">References</h2>
+		<p id="Bhattacharjee18">[Bhattacharjee18] Sravani Bhattacharjee, "Practical Industrial Internet of Things Security," Packt Publishing, 2018, ISBN: 9781788832687, 9781788832687 (Safari Book)</p>
+		<p id="Zurawski17">[Zurawski17] Richard Zurawski, "Industrial Communication Technology Handbook, 2nd Edition" CRC Press, 2017, ISBN: 9781482207330, 1482207338 (Safari Book)</p>
+		<p id="Finn18">[Finn18] Norman Finn, "Introduction to Time-Sensitive Networking", IEEE, 2018, pp. 22-28, <a href="https://ieeexplore.ieee.org/document/8412458">https://ieeexplore.ieee.org/document/8412458</a></p>
+		<p id="Messenger18">[Messenger18] John L. Messenger, "Time-Sensitive Networking: An Introduction", IEEE, 2018, pp. 29-33, <a href="https://ieeexplore.ieee.org/document/8412459">https://ieeexplore.ieee.org/document/8412459</a></p>
+		<p id="Han19">[Han19] Mingyu Han, Peter Crossley, "Vulnerability of IEEE 1588 under Time Synchronization Attacks", IEEE, 2019, <a href="https://ieeexplore.ieee.org/document/8973494">https://ieeexplore.ieee.org/document/8973494 </a></p>
+		<p id="Ditzel20">[Ditzel20] George Ditzel, "The Comparison/Contrast of TSN", Schneider Electric, 2020, <a href="https://www.odva.org/wp-content/uploads/2020/05/2020-ODVA-Conference_TSN_FRER_PRP_Ditzel_Final.pdf">https://www.odva.org/wp-content/uploads/2020/05/2020-ODVA-Conference_TSN_FRER_PRP_Ditzel_Final.pdf</a>
+		<p id="802.1-18a">[802.1-18a] "Introduction to IEEE 802.1: Focus on the Time-Sensitive Networking Task Group", <a href=http://www.ieee802.org/1/files/public/docs2018/tsn-farkas-intro-0318-v01.pdf>http://www.ieee802.org/1/files/public/docs2018/tsn-farkas-intro-0318-v01.pdf</a> [An introductory presentation to Time-Sensitive Networking standards]</p>
+		<p id="802.1-18b">[802.1-18b] "TSN Basic Concepts", <a href="https://www.ieee802.org/1/files/public/docs2018/detnet-tsn-farkas-tsn-basic-concepts-1118-v01.pdf">https://www.ieee802.org/1/files/public/docs2018/detnet-tsn-farkas-tsn-basic-concepts-1118-v01.pdf</a> [Overview about TSN]</p>
+		<p id="wiki01">[wiki01] "Time-Sensitive Networking", <a href="https://en.wikipedia.org/wiki/Time-Sensitive_Networking">https://en.wikipedia.org/wiki/Time-Sensitive_Networking</a> [General explanation about Time-Sensitive Networking]</p>
+		<p id="wiki02">[wiki02] "Audio Video Bridging", <a href="https://en.wikipedia.org/wiki/Audio_Video_Bridging">https://en.wikipedia.org/wiki/Audio_Video_Bridging</a> [Technical standards which provide improved synchronization, low-latency, and reliability for switched Ethernet networks]</p>
+		<p id="wiki03">[wiki03] "Stream Reservation Protocol", <a href="https://en.wikipedia.org/wiki/Stream_Reservation_Protocol">https://en.wikipedia.org/wiki/Stream_Reservation_Protocol</a> [General description about Stream Reservation Protocol]</p>
+		<p id="wiki04">[wiki04] "Software-defined networking", <a href="https://en.wikipedia.org/wiki/Software-defined_networking">https://en.wikipedia.org/wiki/Software-defined_networking</a> [General description about Software-defined networking technology]</p>
+		<p id="wiki05">[wiki05] "Time Sensitive Networking (TSN) Frequently Asked Questions", <a href="https://www.ni.com/en-us/innovations/white-papers/18/time-sensitive-networking--tsn--frequently-asked-questions.html#section-1087022348">https://www.ni.com/en-us/innovations/white-papers/18/time-sensitive-networking--tsn--frequently-asked-questions.html#section-1087022348</a> [A collection of questions and answers about TSN]</p>
+		<p id="wiki06">[wiki06] "Deterministic system", <a href="https://en.wikipedia.org/wiki/Deterministic_system">https://en.wikipedia.org/wiki/Deterministic_system</a> [Definition of Deterministic system]
+		<p id="intel18">[intel18] "Time-Sensitive Networking: From Theory to Implementation in Industrial Automation", <a href="https://www.intel.com/content/dam/www/programmable/us/en/pdfs/literature/wp/wp-01279-time-sensitive-networking-from-theory-to-implementation-in-industrial-automation.pdf">https://www.intel.com/content/dam/www/programmable/us/en/pdfs/literature/wp/wp-01279-time-sensitive-networking-from-theory-to-implementation-in-industrial-automation.pdf</a> [From Theory to Implementation in Industrial Automation using TSN]</p>
+		<p id="Shousai18">[Shousai18] "Time Sensitive Networking Technology Overview andPerformance Analysis", <a href="https://kns.cnki.net/kcms/detail/34.1294.TN.20181121.0808.002.html">https://kns.cnki.net/kcms/detail/34.1294.TN.20181121.0808.002.html</a> [Description of the broad underlying technology of TSN]</p>
+		<p id="motion01">[motion01] "Deterministic, real-time control", <a href="https://www.motioncontroltips.com/deterministic-real-time-control-what-does-it-really-mean-in-motion-control-applications/">https://www.motioncontroltips.com/deterministic-real-time-control-what-does-it-really-mean-in-motion-control-applications/</a> [About meaning of Deterministic and realtime]</p>
+	<hr>
+	
+	<!-- List of Acronyms -->
+	<h2 id="toc6">List of Acronyms</h2>
+		<table>
+			<tbody>
+				<tr><td>TSN  </td> <td>Time-Sensitive Networking</td></tr>
+				<tr><td>AVB  </td> <td>Audio/Video Bridging</td></tr>
+				<tr><td>A/V  </td> <td>Audio/Video</td></tr>
+				<tr><td>QoS  </td> <td>Quality of Service</td></tr>
+				<tr><td>ADAS </td> <td>Advanced Driver Assistance Systems</td></tr>
+				<tr><td>IoT  </td> <td>Internet of Things</td></tr>
+				<tr><td>M2M  </td> <td>Machine-to-Machine</td></tr>
+				<tr><td>TDM  </td> <td>Time-Division Multiplexing</td></tr>
+				<tr><td>PTP  </td> <td>Precise Time Protocol</td></tr>
+				<tr><td>GPS  </td> <td>Global Positioning System</td></tr>
+				<tr><td>FRER </td> <td>Frame Replication and Elimination for Reliability</td></tr>
+				<tr><td>PSFP </td> <td>Per-Stream Filtering and Policing</td></tr>
+				<tr><td>IPV  </td> <td>Internal Priority Value</td></tr>
+			</tbody>
+		</table>
 <hr>
+Last Modified: November 22, 2021
+<br>
+This and other papers on latest advances in computer networking are available on line at <a href="https://www.cse.wustl.edu/~jain/cse570-21/index.html">https://www.cse.wustl.edu/~jain/cse570-21/index.html</a>
+<br>
+<a href="https://www.cse.wustl.edu/~jain/index.html">Back to Raj Jain's Home Page</a>
+<BR>
 
-<a href="#top">Back to top of page</a>
+
+	</body>
+</html>
+
+
 </body>
