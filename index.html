@@ -26,10 +26,12 @@
 
 <h1>Time-Sensitive Networking – Deterministic Network</h1>
 
+<b>Byeongchan Gwak</b>, b.gwak@wustl.edu (A paper written under the guidance of Prof. Raj Jain
+
 
 <h2 id="abstract">Abstract</h2>
 <p>
-    Traditional networks have developed in the direction of providing connected services to users, expanding service bandwidth, and guaranteeing service quality. Until now, network-based services have focused on people, and delays of tens of milliseconds have not been a big problem. However, with the advent of services that target things such as Machine-to-Machine(M2M) and the Internet of Things (IoT), we are facing a situation where our service is disrupted by the slightest delay. The time-sensitive networking (TSN) technology standardized by IEEE 802.1 is an Ethernet-based networking technology to provide services for applications requiring ultra-low latency and high-precision characteristics. This paper explains what TSN is and how to implement deterministic communication and its core technology. Then, this paper shows the applications of TSN and the challenges it faces today.
+    Traditional networks have developed in the direction of providing connected services to users, expanding service bandwidth, and guaranteeing service quality. Until now, network-based services have focused on people, and delays of tens of milliseconds have not been a big problem. However, with the advent of services that target things such as Machine-to-Machine(M2M) and the Internet of Things (IoT), we are facing a situation where our service is disrupted by the slightest delay. The Time-Sensitive Networking (TSN) technology standardized by IEEE 802.1 is an Ethernet-based networking technology to provide services for applications requiring ultra-low latency and high-precision characteristics. This paper explains what TSN is and how to implement deterministic communication and its core technology. Then, this paper shows the applications of TSN and the challenges it faces today.
 </p>
 
 
@@ -87,10 +89,10 @@
             Industrial automation triggered by the 4th Industrial Revolution requires high availability and very low latency (less than 1ms) communication services such as real-time monitoring and high-precision remote control. IEEE 802.3 Although IEEE 802.3 Ethernet is a widely deployed, low-cost Layer 2 technology, it does not meet the deterministic requirements of achieving bounded latency and zero loss. To achieve deterministic performance, most industrial enterprises continue to use Fieldbus technologies and their proprietary enhancements to Ethernet (such as EtherCat, PROFINET, or SERCOS III) [<a href="#Bhattacharjee18">Bhattacharjee18</a>].
         </p>
         <p>
-            As a result, the current industrial networks are not uniform and have different appearances. The use of these individual products faced the limitations of low security and interoperability, which is currently an obstacle in industrial Internet of Things (IoT) network integration and transition to the 4th Industrial Revolution.
+            As a result, the current industrial networks are not uniform and have different appearances. The use of these individual products faced the limitations of low security and interoperability, which is currently an obstacle in industrial IoT network integration and transition to the 4th Industrial Revolution.
         </p>
         <p>
-            However, things are a little different now. This is because Time-Sensitive Networking (TSN), which evolved into the IEEE 802.1 standard, has emerged. Next, this paper will discuss what TSN is, how it achieves deterministic communication, and its applications and limitations.
+            However, things are a little different now. This is because TSN, which evolved into the IEEE 802.1 standard, has emerged. Next, this paper will discuss what TSN is, how it achieves deterministic communication, and its applications and limitations.
         </p>
     <hr>
 
@@ -100,13 +102,13 @@
 
 		<h3 id="toc21">2.1 Definition of TSN</h3>
         <p>
-            Time-Sensitive Networking (TSN), as inferred from the title, is a set of technologies to support time-sensitive networks. It is a technology that can handle time-sensitive traffic by using the IEEE standard Ethernet that we are currently using [<a href="#Messenger18">Messenger18</a>]. In other words, TSN is to provide zero loss from congestion and bounded latency for a variety of time-sensitive data streams coexisting on a network that also supports best-effort traffic [<a href="#wiki01">wiki01</a>]. TSN provides ultra-low latency networking for a local area network that is built with a small number of devices located at a relatively close distance. Likewise, it can be applied to any application such as industrial automation where the delay deviation of a traffic flow must not exceed a specified range.
+            TSN, as inferred from the title, is a set of technologies to support time-sensitive networks. It is a technology that can handle time-sensitive traffic by using the IEEE standard Ethernet that we are currently using [<a href="#Messenger18">Messenger18</a>]. In other words, TSN is to provide zero loss from congestion and bounded latency for a variety of time-sensitive data streams coexisting on a network that also supports best-effort traffic [<a href="#wiki01">wiki01</a>]. TSN provides ultra-low latency networking for a local area network that is built with a small number of devices located at a relatively close distance. Likewise, it can be applied to any application such as industrial automation where the delay deviation of a traffic flow must not exceed a specified range.
         </p>
         <p>
             Early TSN designs were intended for use with audio and video streaming containing large amounts of data in systems with numerous end stations. TSN extends the IEEE 802 optimal networking model by introducing a new streaming concept. This concept supports a set of features that enhance the real-time capabilities of streams.
         </p>
         <p>
-            In other words, it can be seen as a technology set that guarantees the arrival time of data between nodes in Ethernet network where the arrival time is otherwise not guaranteed.
+            In other words, it can be seen as a technology set that guarantees the arrival time of data between nodes in an Ethernet network where the arrival time is otherwise not guaranteed.
         </p>
         
 		<h3 id="toc22">2.2 History of TSN</h3>
@@ -117,21 +119,21 @@
 
         <h3 id="toc23">2.3 Advantages of TSN</h3>
         <p>
-            2.3.1 Bounded latency and zero congestion loss
+            <b>2.3.1 Bounded latency and zero congestion loss</b>
         </p>
         <p>
-            Congestion loss, the statistical overflowing of an output buffer in a network node, is the main cause of packet loss in a best-effort network [<a href="#Finn18">Finn18</a>]. To deal with this problem, TSN transmits by grafting the concept of priority to a method similar to the traditional time-division multiplexing (TDM). Since packets are allocated an available time for transmission according to priority, arrival time is guaranteed, and even if a bottleneck occurs, transmission can be performed without affecting the predetermined priority. Therefore, TSN can guarantee worst-case arrival times in any case, which is a clear advantage that traditional Ethernet cannot have.
+            Congestion loss, the statistical overflowing of an output buffer in a network node, is the main cause of packet loss in a best-effort network [<a href="#Finn18">Finn18</a>]. To deal with this problem, TSN transmits by grafting the concept of priority to a method similar to the traditional Time-Division Multiplexing (TDM). Since packets are allocated an available time for transmission according to priority, arrival time is guaranteed, and even if a bottleneck occurs, transmission can be performed without affecting the predetermined priority. Therefore, TSN can guarantee worst-case arrival times in any case, which is a clear advantage that traditional Ethernet cannot have.
         </p>
 
         <p>
-            2.3.2 Reliable packet delivery
+            <b>2.3.2 Reliable packet delivery</b>
         </p>
 
         <p>
             Very reliable packet forwarding is possible. Besides congestion loss, one of the most important causes of packet loss is equipment failure [<a href="#Finn18">Finn18</a>]. A TSN network can send a copy of data in transmission and deduplicate it at the destination. Because all packets are duplicated and delivered to their destination, no single packet is lost due to a single equipment failure. This, combined with the advantage of being reached on time, makes the TSN more complete.
         </p>
         <p>
-            2.3.3 Reduce network cost and complexity by coexistence with Ethernet
+            <b>2.3.3 Reduce network cost and complexity by coexistence with Ethernet</b>
         </p>
         <p>
             TSN coexists with the traditional Ethernet method. Additionally, non-TSN traffic can use any contracted bandwidth not used by TSN flows. And since it is implemented on top of the traditional Ethernet method, there is no need to replace the equipment, and it can be integrated and managed. This is a huge advantage for the application of TSN.
@@ -146,7 +148,7 @@
 	<!-- TSN: Set of standards -->
 	<h2 id="toc3">3. TSN: Set of standards</h2>
 		<p>
-            Time-division multiplexing (TDM) is a traditional approach that transmits multiple continuously changing signals side-by-side on the same line, such as digitized phone calls and video [<a href="#Messenger18">Messenger18</a>]. TDM uses time slicing to transmit these signals without significant interference but also introduces the limitation that unused fragments cannot be used to carry other traffic. TSN is a set of technologies that use the time division of TDM while ensuring that there are no unused fragments. This chapter is going to take a detailed look at the meaning of 'deterministic' and the technologies of TSN that make it possible.
+            TDM is a traditional approach that transmits multiple continuously changing signals side-by-side on the same line, such as digitized phone calls and video [<a href="#Messenger18">Messenger18</a>]. TDM uses time slicing to transmit these signals without significant interference but also introduces the limitation that unused fragments cannot be used to carry other traffic. TSN is a set of technologies that use the time division of TDM while ensuring that there are no unused fragments. This chapter is going to take a detailed look at the meaning of 'deterministic' and the technologies of TSN that make it possible.
         </p>	
 
 		<h3 id="toc31">3.1 Meaning of 'Deterministic'</h3>
@@ -176,12 +178,12 @@
         <table class="figure">
             <tr>
                 <td><img src="fig1.png" width="430" height="370" alt="Figure 1: A TSN/AVB network before time synchronization"></td>
-                <td width="30"></td>
+                <td style="width:30px"></td>
                 <td><img src="fig2.png" width="430" height="370" alt="Figure 2: After selecting Master clock using Spanning Tree Protocol (STP)"></td>
             </tr>
             <tr>
                 <td><b>Figure 1: A TSN/AVB network before time synchronization</b><br>[<a href="#Zurawski17">Zurawski17</a>]</td>
-                <td width="30"></td>
+                <td style="width:30px"></td>
                 <td><b>Figure 2: After selecting Master clock using Spanning Tree Protocol (STP)</b><br>[<a href="#Zurawski17">Zurawski17</a>]</td>
             </tr>
         </table>
@@ -202,7 +204,7 @@
                 </tr>
         </table>
         <p>
-            TSN defines three types of traffic: critical traffic, reserved traffic, and best-effort traffic. Industrial automation and control traffic that requires limited latency and zero congestion loss is an example of critical traffic. A reserved traffic type is a frame allocated in different time slots with a specified bandwidth reservation. Best effort traffic is plain Ethernet traffic that has no specific quality of service (QoS) requirements.
+            TSN defines three types of traffic: critical traffic, reserved traffic, and best-effort traffic. Industrial automation and control traffic that requires limited latency and zero congestion loss is an example of critical traffic. A reserved traffic type is a frame allocated in different time slots with a specified bandwidth reservation. Best effort traffic is plain Ethernet traffic that has no specific Quality of Service (QoS) requirements.
         </p>
         <p>
             In summary, for deterministic communication, a time shaper divides time into cycles and assigns it to each slot, and the slot can transmit data according to its priority.
@@ -210,7 +212,7 @@
 
 		<h3 id="toc34">3.4 Per-Stream Filtering and Policing (IEEE 802.1Qci) & Cyclic Queuing and Forwarding (IEEE 802.1Qch)</h3>
         <p>
-            802.1Qci provides filtering and policy capabilities on a per-stream basis using stream identification. A stream is identified by mapping a combination of header fields to an internal priority value (IPV) that determines the class. Various combinations of a MAC source address, destination address, VLAN, and IP header fields can be used to identify streams. Moreover, it is designed to be extensible. Stream filters can direct traffic streams to specific meters and output queues through stream gates and detect and block specific error conditions.
+            802.1Qci provides filtering and policy capabilities on a per-stream basis using stream identification. A stream is identified by mapping a combination of header fields to an Internal Priority Value (IPV) that determines the class. Various combinations of a MAC source address, destination address, VLAN, and IP header fields can be used to identify streams. Moreover, it is designed to be extensible. Stream filters can direct traffic streams to specific meters and output queues through stream gates and detect and block specific error conditions.
         </p>
         <p>
             This classified stream enters Cyclic Queuing. IEEE 802.1Qch collects packets according to the class of incoming traffic and delivers them one at a time. This circular queue and queue emptying procedure provides a defined (but not optimal) upper bound on latency and ensures that frames are sent within a bounded latency.
@@ -280,7 +282,7 @@
 
 		<h3 id="toc41">4.1 Application Domains</h3>
         <p>
-            4.1.1 Audio/Video Networking
+            <b>4.1.1 Audio/Video Networking</b>
         </p>
         <p>
             Audio/Video Networking was also covered in the history of TSN and it started with the technology to support the media in the first place. Networks carrying audio and video information must adhere to strict timing rules. If the audio or video packet arrives at the destination late, the sound source and video cannot be output correctly. Therefore, one-way, single-purpose, point-to-point connections have been used. 
@@ -297,10 +299,10 @@
             </tr>
         </table>
         <p>
-            4.1.2 Automotive Networks
+            <b>4.1.2 Automotive Networks</b>
         </p>
         <p>
-            Vehicles are machines that are directly related to human safety. Advanced driver assistance systems (ADAS) are becoming more and more popular in recent years. Adaptive cruise control (ACC), Automatic braking system (ABS), Automatic parking, Blind-spot monitors, and Pedestrian monitors are examples of ADAS. 
+            Vehicles are machines that are directly related to human safety. Advanced Driver Assistance Systems (ADAS) are becoming more and more popular in recent years. Adaptive Cruise Control (ACC), Automatic Braking System (ABS), Automatic parking, Blind-spot monitors, and Pedestrian monitors are examples of ADAS. 
         </p>
         <p>
             As shown in Figure 8, driving assistance devices such as radar and cameras for better driving are already included in many vehicles, and it is clear that more and more are expected. Connecting all of this equipment with wires is not a long-term alternative.
@@ -317,10 +319,10 @@
             TSN's ultra-low latency, ultra-low loss make it an alternative to connecting any electronic device in a vehicle, and deterministic transmission is essential to control these devices. And in addition to the benefits offered by deterministic transport, compatibility with legacy Ethernet offers significant benefits for automotive applications. There is no need to rely on cumbersome legacy networking protocols such as FlexRay, LIN, and MOST used to interconnect various systems inside the car. Processing multiple types of data (control, air conditioning, electronics, infotainment, etc.) on one unified platform is important in an environment such as automobiles. Moreover, now automakers are moving to use Ethernet (with TSN) for connection of the vehicle ECUs [<a href="#wiki03">wiki03</a>]. In the future, more ADAS will be connected and TSN will provide the core network in an automobile.
         </p>
         <p>
-            4.1.3 Machine Control
+            <b>4.1.3 Machine Control</b>
         </p>
         <p>
-            As the main users of the network move from people to M2M, TSN technology has potential markets in a variety of fields. TNS is attracting attention from many markets in line with changes in industrial networks such as industry 4.0. It can be applied to any field requiring time-sensitive control. It can be used, for example, in a machine control system between equipment in a factory. The machine control network accepts input from sensors, performs control processes, and initiates actions in response. Creating a predictable machine control system requires the implementation of a deterministic network. Historically many companies have used proprietary Fieldbuses, but this had technical and business limitations, especially related to scalability, bandwidth, vendor neutrality, and flexibility [<a href="#wiki03">wiki03</a>]. Now, NI and Hilscher, the leaders in industrial equipment TNS market, have started adding products that support TSN to their product lines. And these products will increase TSN utilization even more in the future.
+            As the main users of the network move from people to M2M, TSN technology has potential markets in a variety of fields. TNS is attracting attention from many markets in line with changes in industrial networks such as industry 4.0. It can be applied to any field requiring time-sensitive control. It can be used, for example, in a machine control system between equipment in a factory. The machine control network accepts input from sensors, performs control processes, and initiates actions in response. Creating a predictable machine control system requires the implementation of a deterministic network. Historically many companies have used proprietary Fieldbuses, but this had technical and business limitations, especially related to scalability, bandwidth, vendor neutrality, and flexibility [<a href="#wiki03">wiki03</a>]. Now, NI and Hilscher, the leaders in the industrial equipment TNS market, have started adding products that support TSN to their product lines. And these products will increase TSN utilization even more in the future.
         </p>
 		<h3 id="toc42">4.2 Challenges</h3>
         <p>
@@ -380,7 +382,6 @@
 	<h2 id="toc7">List of Acronyms</h2>
 		<table>
 			<tbody>
-				<tr><td>A/V  </td> <td>Audio/Video</td></tr>
 				<tr><td>ABS  </td> <td>Automatic Braking System</td></tr>
 				<tr><td>ACC  </td> <td>Adaptive Cruise Control</td></tr>
 				<tr><td>ADAS </td> <td>Advanced Driver Assistance Systems</td></tr>
